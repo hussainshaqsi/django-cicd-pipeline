@@ -1,0 +1,23 @@
+name: myapp
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    networks: [web]
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+    volumes:
+      - dbdata:/app/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.app.rule=Host(`hussain-app.duckdns.org`)
+      - traefik.http.routers.app.entrypoints=websecure
+      - traefik.http.routers.app.tls.certresolver=le
+      - traefik.http.services.app.loadbalancer.server.port=8000
+
+networks:
+  web:
+    external: true
+
+volumes:
+  dbdata:
