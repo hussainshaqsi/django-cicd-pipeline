@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-only-change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['hussain-app.duckdns.org']
+ALLOWED_HOSTS = ['hussain-app.duckdns.org', 'hussain-k3s.duckdns.org']
 
 
 # Application definition
