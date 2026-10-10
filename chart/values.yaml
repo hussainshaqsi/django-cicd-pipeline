@@ -1,0 +1,24 @@
+image:
+  repository: myapp-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  port: 8000
+
+ingress:
+  host: hussain-k3s.duckdns.org
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+persistence:
+  size: 1Gi
+  storageClassName: local-path
