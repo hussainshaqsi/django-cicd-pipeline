@@ -19,7 +19,7 @@ from django.urls import path
 from django.http import HttpResponse
 
 def home(request): 
-    return HttpResponse("Hello from my automated pipeline!") 
+    return HttpResponse("Fully automated, Docker and Kubernetes!") 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
