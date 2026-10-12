@@ -57,13 +57,15 @@ La clé secrète Django (`SECRET_KEY`) n'est jamais stockée dans le code. Elle 
 
 ![Pipeline réussi](screenshot-pipeline.png)
 
-*(Remplacer par une vraie capture d'écran d'un pipeline vert à trois étapes)*
+<img width="1590" height="892" alt="image" src="https://github.com/user-attachments/assets/c76a2837-ae42-43ff-bd0e-742a4942c4af" />
+
 
 ## Tableau de bord Grafana
 
 ![Dashboard Grafana](screenshot-grafana.png)
 
-*(Remplacer par une capture d'écran du dashboard Kubernetes et/ou de la règle d'alerte)*
+<img width="1501" height="880" alt="image" src="https://github.com/user-attachments/assets/2cc0514b-e2e1-4b66-82fe-d3ea2234bec7" />
+
 
 ## Pourquoi ce projet
 
