@@ -74,3 +74,5 @@ Je voulais comprendre, de bout en bout, comment une application passe du code su
 ## Deux projets, une seule infrastructure
 
 Par souci d'efficacité (et pour rester à 0€/mois), les deux modes de déploiement partagent la même VM Oracle. Plutôt que de payer pour une deuxième machine, j'ai appris à faire cohabiter proprement deux systèmes de conteneurisation différents, avec un seul point d'entrée réseau — exactement le genre d'arbitrage coût/complexité qu'on retrouve en conditions réelles.
+
+<img width="757" height="565" alt="image" src="https://github.com/user-attachments/assets/d9675bd4-835d-40bd-a87e-c68caa1a425b" />
