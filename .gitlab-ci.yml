@@ -15,3 +15,16 @@ deploy:
     - echo "DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY" > .env
     - docker compose up -d --build
     - docker image prune -f
+
+deploy-k3s:
+  stage: deploy
+  tags: [oracle]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    KUBECONFIG: /home/gitlab-runner/.kube/config
+  script:
+    - docker build -t myapp-app:$CI_COMMIT_SHORT_SHA .
+    - docker save myapp-app:$CI_COMMIT_SHORT_SHA | sudo k3s ctr images import -
+    - kubectl create secret generic myapp-secret --from-literal=DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY --dry-run=client -o yaml | kubectl apply -f -
+    - helm upgrade --install myapp ./chart --set image.tag=$CI_COMMIT_SHORT_SHA
