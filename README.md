@@ -1,23 +1,23 @@
-# Django CI/CD Pipeline: Docker, Kubernetes (k3s), Traefik, Prometheus & Grafana
+# Pipeline CI/CD Django : Docker, Kubernetes (k3s), Traefik, Prometheus & Grafana
 
-> **In short:** a Django app deployed two ways on one free-tier Oracle Cloud VM (Docker Compose and k3s with a self-written Helm chart), sharing one Traefik reverse proxy with automatic HTTPS. A self-hosted GitLab runner builds and deploys both on every push to `main`, and Prometheus + Grafana monitor the cluster with a custom alert rule. Running cost: 0 EUR/month.
+> **En bref :** une application Django déployée de deux façons sur une seule VM Oracle Cloud gratuite (Docker Compose et k3s avec un chart Helm écrit par moi), derrière un même reverse proxy Traefik avec HTTPS automatique. Un runner GitLab auto-hébergé construit et déploie les deux à chaque push sur `main`, et Prometheus + Grafana supervisent le cluster avec une règle d'alerte personnalisée. Coût : 0 €/mois.
 >
-> This GitHub repository is a mirror of the GitLab project where the pipeline runs (`.gitlab-ci.yml`). The detailed write-up below is in French.
+> Ce dépôt GitHub est un miroir du projet GitLab où tourne le pipeline (`.gitlab-ci.yml`).
 
 ```mermaid
 flowchart LR
-    dev[git push to main] --> gl[GitLab CI/CD]
-    gl --> runner[Self-hosted runner on the VM]
-    runner --> dc[Docker Compose deploy]
-    runner --> k3s[k3s deploy via Helm]
-    user((User, HTTPS)) --> traefik[Traefik + Let's Encrypt]
+    dev[git push sur main] --> gl[GitLab CI/CD]
+    gl --> runner[Runner auto-hébergé sur la VM]
+    runner --> dc[Déploiement Docker Compose]
+    runner --> k3s[Déploiement k3s via Helm]
+    user((Utilisateur, HTTPS)) --> traefik[Traefik + Let's Encrypt]
     traefik --> dc
     traefik --> k3s
-    prom[Prometheus] --> graf[Grafana + alert rule]
-    k3s -. metrics .-> prom
+    prom[Prometheus] --> graf[Grafana + règle d'alerte]
+    k3s -. métriques .-> prom
 ```
 
-## Version française
+## Présentation
 
 Application web Django déployée de deux façons différentes sur une seule VM Oracle Cloud (offre gratuite) : via Docker Compose classique, et via un cluster Kubernetes (k3s). Les deux déploiements partagent le même reverse proxy (Traefik), avec HTTPS automatique, et sont entièrement automatisés via GitLab CI/CD. Un stack de monitoring complet (Prometheus + Grafana) surveille le cluster.
 
