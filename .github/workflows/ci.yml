@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Django system check
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-a-real-secret
+        run: python manage.py check
+
+      - name: Build Docker image
+        run: docker build -t django-cicd-pipeline:ci .
+
+      - name: Scan image with Trivy (report only)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: django-cicd-pipeline:ci
+          severity: HIGH,CRITICAL
+          exit-code: "0"

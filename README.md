@@ -1,4 +1,23 @@
-# Mon pipeline CI/CD avec Django, Docker, Traefik et Kubernetes
+# Django CI/CD Pipeline: Docker, Kubernetes (k3s), Traefik, Prometheus & Grafana
+
+> **In short:** a Django app deployed two ways on one free-tier Oracle Cloud VM (Docker Compose and k3s with a self-written Helm chart), sharing one Traefik reverse proxy with automatic HTTPS. A self-hosted GitLab runner builds and deploys both on every push to `main`, and Prometheus + Grafana monitor the cluster with a custom alert rule. Running cost: 0 EUR/month.
+>
+> This GitHub repository is a mirror of the GitLab project where the pipeline runs (`.gitlab-ci.yml`). The detailed write-up below is in French.
+
+```mermaid
+flowchart LR
+    dev[git push to main] --> gl[GitLab CI/CD]
+    gl --> runner[Self-hosted runner on the VM]
+    runner --> dc[Docker Compose deploy]
+    runner --> k3s[k3s deploy via Helm]
+    user((User, HTTPS)) --> traefik[Traefik + Let's Encrypt]
+    traefik --> dc
+    traefik --> k3s
+    prom[Prometheus] --> graf[Grafana + alert rule]
+    k3s -. metrics .-> prom
+```
+
+## Version française
 
 Application web Django déployée de deux façons différentes sur une seule VM Oracle Cloud (offre gratuite) : via Docker Compose classique, et via un cluster Kubernetes (k3s). Les deux déploiements partagent le même reverse proxy (Traefik), avec HTTPS automatique, et sont entièrement automatisés via GitLab CI/CD. Un stack de monitoring complet (Prometheus + Grafana) surveille le cluster.
 
@@ -55,14 +74,10 @@ La clé secrète Django (`SECRET_KEY`) n'est jamais stockée dans le code. Elle 
 
 ## Pipeline en action
 
-![Pipeline réussi](screenshot-pipeline.png)
-
 <img width="1590" height="892" alt="image" src="https://github.com/user-attachments/assets/c76a2837-ae42-43ff-bd0e-742a4942c4af" />
 
 
 ## Tableau de bord Grafana
-
-![Dashboard Grafana](screenshot-grafana.png)
 
 <img width="1501" height="880" alt="image" src="https://github.com/user-attachments/assets/2cc0514b-e2e1-4b66-82fe-d3ea2234bec7" />
 
